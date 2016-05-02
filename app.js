@@ -37,6 +37,10 @@ app.get('/', function(req, res) {
 
 io.on('connection', function(socket){
 	console.log(socket);
+
+	socket.on('attack', function (){
+		socket.emit('attackDone', {attributExemple : 'truc'})
+	});
 });
 
 //--------------------------------------------------
@@ -52,3 +56,4 @@ server.listen(port, function(socket) {
 var url = 'mongodb://localhost:27017/videodb';
 
 //--------------------------------------------------
+

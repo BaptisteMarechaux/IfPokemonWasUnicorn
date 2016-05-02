@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<script src="/socket.io/socket.io.js"></script><script type="text/javascript">var socket = io();</script>
 	<title>If pokemon was unicorn</title>
 	<link rel="stylesheet" type="text/css" href="/public/style/index.css">
+	<script src="/public/scripts/pokemonUnicorn.js"></script>
 </head>
 <body>
+
 	<header>
 		<h1>If Pokémon Was Unicorn</h1>
 	</header>
@@ -17,6 +20,8 @@
 
 					<label>Password</label>
 					<input type="password" placeholder="User Name" />
+
+					<button>Find</button>
 				</form>
 			</div>
 		</div>
@@ -26,10 +31,10 @@
 			</div>
 			<div class="battleCommands">
 				<div class="mainCommands">
-					<button id="attack1" class="mainCommand">Attack</button>
-					<button id="attack2" class="mainCommand">Pokémon</button>
-					<button id="attack3" class="mainCommand">Item</button>
-					<button id="attack4" class="mainCommand">Surrender</button>
+					<button id="fightCommand" class="mainCommand" onclick="pokemonUMod.selectFight()">Fight</button><!--
+				--><button id="pokemonCommand" class="mainCommand" onclick="pokemonUMod.selectPokemon()">Pokémon</button><!--
+				--><button id="itemCommand" class="mainCommand" onclick="pokemonUMod.selectItem()">Item</button><!--
+				--><button id="surrenderCommand" class="mainCommand" onclick="pokemonUMod.selectSurrender()">Give Up</button>
 				</div>
 				<div class="attackCommands hidden">
 					<button id="attack1" class="attackCommand">Attack 1</button>
@@ -43,5 +48,6 @@
 	<footer>
 		Made by "Some Strange People"
 	</footer>
+	<script src="/public/scripts/main.js"></script>
 </body>
 </html>
