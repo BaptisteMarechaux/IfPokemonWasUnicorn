@@ -1,8 +1,25 @@
+@font-face {
+    font-family: 'open_sanslight';
+    src: url('/public/fonts/opensans-light-webfont.eot');
+    src: url('/public/fonts/opensans-light-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/public/fonts/opensans-light-webfont.woff2') format('woff2'),
+         url('/public/fonts/opensans-light-webfont.woff') format('woff'),
+         url('/public/fonts/opensans-light-webfont.ttf') format('truetype'),
+         url('/public/fonts/opensans-light-webfont.svg#open_sanslight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+7
+* {
+    box-sizing: border-box;
+}
+
 html {
 	height: 100%;
-	font-family: sans-serif;
+	font-family: open_sanslight;
 
-	background-color: #FF63A4;
+	background-color: #303030;
 	color: white;
 }
 
@@ -10,6 +27,11 @@ body{
 	min-height: 100%;
 	margin: 0px;
 	padding: 0px;
+	overflow-x:hidden;
+}
+
+header{
+	background-color: #3E50B4;
 }
 
 label{
@@ -24,37 +46,203 @@ h1, h2, h3 {
 footer {
 	position: absolute;
 	float: left;
-	top: calc(100% - 0px);
+	width: 100%;
+	top: calc(100% - 3em);
+	background-color: #212121;
+	text-align: center;
+	padding: 1em;
 }
 
 .battleSection{
 	width: 800px;
-	height: 450px;
-	border: solid 1px;
+	height: 600px;
 	margin-left: auto;
 	margin-right: auto;
+	overflow: visible;
+	box-shadow: 2px 2px 20px #212121;
+	background-color: #424242;
 }
 
 .battleWindow {
 	width: 800px;
 	height: 400px;
-	background: #92DBEF;
+	background: linear-gradient(#CFD8DC, #ECEFF1); /* Standard syntax */
+}
+
+@media screen and (max-width: 800px){
+	.battleSection{
+		width: 100%;
+	}
+
+	.battleWindow {
+		width: 100%;
+		
+	}
+
+}
+
+.enemySection{
+	height: 50%;
+}
+
+.playerSection{
+	height: 50%;
 }
 
 .battleCommands {
+	
+	flex-direction: row;
 	transition: all 0.4s;
 }
 
-.battleCommands button {
+.mainCommands{
+	display: -webkit-flex;
+	display: flex;
+	width: auto;
+	height: auto;
+	transition: all 0.4s;
+}
+
+.mainCommands button{
+	-webkit-flex:1;
+	flex:1;
+
+	height: 50px;
+	border-radius: 10px;
+	border: none;
+	margin: 5px;
+
+	color : #FFFFFF;
+	font-family: open_sanslight;
+	text-transform: uppercase;
+
+	transition: all 0.4s;
+}
+
+#fightCommand{ background-color: #E53935; }
+#fightCommand:hover{
+	background-color: #E0E0E0;
+	color : #212121;
+}
+
+#pokemonCommand{ background-color: #43A047; }
+#pokemonCommand:hover{
+	background-color: #E0E0E0;
+	color : #212121;
+}
+
+#itemCommand{ background-color: #EF6C00; }
+#itemCommand:hover{
+	background-color: #E0E0E0;
+	color : #212121;
+}
+
+#surrenderCommand{ background-color: #039BE5; }
+#surrenderCommand:hover{
+	background-color: #E0E0E0;
+	color : #212121;
+}
+
+.mainCommand:hover{
+	background-color: #E0E0E0;
+	color : #212121;
+}
+
+.pokemonSprite {
+	display: inline-block;
+	width: 128px;
+	height: 128px;
+
 	margin: 0px;
 	padding: 0px;
-	width: 25%;
-	height: 50px;
-	/*border: none;*/
 }
 
-.mainCommand{
+.pokemonSprite img{
+	width: 100%;
+	height: 100%;
+}
+
+#enemySprite{
+	
+}
+
+#playerSprite{
+	vertical-align: bottom;
+}
+
+.statusBar{
+	display: inline-block;
+	width: 50%;
+	height: 150px;
+	border-radius: 20px;
+	padding: 10px;
+	background-color: #424242;
+	box-shadow: 2px 2px 16px #212121;
+	margin: 10px;
+}
+
+.enemySection .statusBar{
+	float: left;
+}
+
+.playerSection .statusBar{
+	float : right;
+}
+
+.pokemonHPBar{
+	display: block;
+	width: 256px;
+	height: 16px;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	border-radius: 8px;
+}
+
+.acutalHP{
+	padding: 0px;
+	margin: 0px;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: #00FF80;
 	transition: all 0.4s;
+	border-radius: 8px;
+
+}
+
+#enemyHPBar{
+}
+
+#playerHPBar{
+	/*top: calc(100% - 128px);*/
+}
+
+.speedGauge{
+	display: inline-block;
+	width: 232px;
+	height: 12px;
+	margin: 0px;
+	padding: 0px;
+	overflow: hidden;
+	border-radius: 6px;
+	/*margin-top: 5px;*/
+}
+
+.speedImage{
+	margin-top: 5px;
+	display: inline-block;
+}
+
+.actuelSpeedGauge{
+	padding: 0px;
+	margin: 0px;
+	display: block;
+	width: 0%;
+	height: 100%;
+	background-color: #FF9800;
+	/*transition: all 0.4s;*/
+	border-radius: 6px;
 }
 
 .hidden {

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<script src="/socket.io/socket.io.js"></script><script type="text/javascript">var socket = io();</script>
 	<title>If pokemon was unicorn</title>
 	<link rel="stylesheet" type="text/css" href="/public/style/index.css">
@@ -9,7 +10,7 @@
 <body>
 
 	<header>
-		<h1>If Pokémon Was Unicorn</h1>
+		<h1>Unicorn Project</h1>
 	</header>
 	<section class="mainSection">
 		<div class="matchmakingSection">
@@ -27,7 +28,28 @@
 		</div>
 		<div class="battleSection">
 			<div class="battleWindow">
-				
+				<div class="enemySection">
+					<div class="statusBar">
+						<div id="enemyPokemonName" class="pokemonName">Bulbizarre Nv.5</div>
+						<div class="HPText">20/20</div>
+						<div id="enemyHPBar" class="pokemonHPBar"><div id="enemyActualHP" class="acutalHP"></div></div>
+						<img class="speedImage" src="/public/img/icons/ic_update_white_24dp_1x.png"><div id="enemySpeedGauge" class="speedGauge"><div id="enemyActualSpeed" class="actuelSpeedGauge"></div></div>
+					</div>
+					<div id="enemySprite" class="pokemonSprite">
+						<img src="/public/img/battlers/front/001.png">
+					</div>
+				</div>
+				<div class="playerSection">
+					<div id="playerSprite" class="pokemonSprite">
+						<img src="/public/img/battlers/back/007b.png">
+					</div>
+					<div class="statusBar">
+						<div id="playerPokemonName" class="pokemonName">Carapuce Nv.5</div>
+						<div class="HPText">20/20</div>
+						<div id="playerHPBar" class="pokemonHPBar"><div id="playerActualHP" class="acutalHP"></div></div>
+						<img class="speedImage" src="/public/img/icons/ic_update_white_24dp_1x.png"><div id="playerSpeedGauge" class="speedGauge"><div id="playerActualSpeed" class="actuelSpeedGauge"></div></div>
+					</div>
+				</div>
 			</div>
 			<div class="battleCommands">
 				<div class="mainCommands">
