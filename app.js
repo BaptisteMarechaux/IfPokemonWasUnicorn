@@ -16,7 +16,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var assert = require('assert');
 
-var url = 'mongodb://localhost:27017/CESapp';
+var url = 'mongodb://localhost:27017/Unicorn';
 
 var ObjectID = require('mongodb').ObjectID;
 

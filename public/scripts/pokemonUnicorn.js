@@ -3,6 +3,8 @@ var PokeUnicornModule = (function(){
 
 	var instance;
 
+	var calledMonsters = [];
+
 	self.pokemonUnicorn = function() {
 		instance = this;
 		instance._initialize();
@@ -14,7 +16,7 @@ var PokeUnicornModule = (function(){
 		},
 		selectFight : function() {
 			console.log("Fight !");
-			socket.emit('attack');
+			
 		},
 		selectPokemon : function() {
 			console.log("Pokemon change !");
