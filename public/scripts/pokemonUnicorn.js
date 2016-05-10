@@ -38,7 +38,6 @@ var PokeUnicornModule = (function(){
 
 	self.pokemonUnicorn.prototype = {
 		_initialize : function() {
-			console.log("initialized");
 			mainCommands = document.getElementsByClassName("mainCommands")[0];
 
 			attackCommands = document.getElementsByClassName("attackCommands")[0];
@@ -67,16 +66,52 @@ var PokeUnicornModule = (function(){
 		selectSurrender : function() {
 			console.log("I want to give up");
 		},
-		update : function() {
-			console.log("updating");
+		useMove : function(index){
+			if(index < 0)
+				index=0;
+			if(index>3)
+				index=3;
 
-			if(playerStats.time < 100)
-				playerStats.time += 1*0.2*playerStats.spe*0.5;
-			if(enemyStats.time < 100)
-				enemyStats.time += 1*0.2*enemyStats.spe*0.5;
+			if(playerStats.time >= 100) { //Condition empechant de lancer une attaque avant la fin de son attente
+				console.log("Your pokemon used move " + index);
+				enemyStats.hP -= 2;
 
+				playerStats.time = 0;
+			}
+			
+		},
+		updateSpeedGauge : function(){
 			playerSpeedGauge.style.width = playerStats.time + "%";
 			enemySpeedGauge.style.width = enemyStats.time + "%";
+		},
+		updateHPBar : function(){
+			playerHPBar.style.width = (playerStats.hP*1.0/playerStats.maxHP*1.0)*100 + "%";
+			enemyHPBar.style.width = (enemyStats.hP*1.0/enemyStats.maxHP*1.0)*100 + "%";
+		},
+		update : function() {
+			//console.log("updating");
+
+			if(playerStats.time <= 100)
+				playerStats.time += 1*0.2*playerStats.spe*0.5;
+			if(enemyStats.time <= 100)
+				enemyStats.time += 1*0.2*enemyStats.spe*0.5;
+
+			if(enemyStats.time >= 100)
+			{
+				if(playerStats.hP>0){
+					playerStats.hP -=2;
+					enemyStats.time = 0;
+					console.log(playerStats.hP);
+				}
+			}
+
+			if(playerStats.hp < 0)
+				playerStats.hp=0;
+			if(enemyStats.hp < 0)
+				enemyStats.hp=0;
+
+			self.pokemonUnicorn.prototype.updateSpeedGauge();
+			self.pokemonUnicorn.prototype.updateHPBar();
 
 			requestAnimationFrame(self.pokemonUnicorn.prototype.update);
 		}
