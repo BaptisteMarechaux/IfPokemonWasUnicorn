@@ -31,9 +31,10 @@
 				<div class="enemySection">
 					<div class="statusBar">
 						<div id="enemyPokemonName" class="pokemonName">Bulbizarre Nv.5</div>
-						<div class="HPText">20/20</div>
+						<div id="enemyHPText" class="HPText">20/20</div>
 						<div id="enemyHPBar" class="pokemonHPBar"><div id="enemyActualHP" class="acutalHP"></div></div>
 						<img class="speedImage" src="/public/img/icons/ic_update_white_24dp_1x.png"><div id="enemySpeedGauge" class="speedGauge"><div id="enemyActualSpeed" class="actuelSpeedGauge"></div></div>
+						<div id="enemyUsedAction" class="usedActionText">Used Tackle</div>
 					</div>
 					<div id="enemySprite" class="pokemonSprite">
 						<img src="/public/img/battlers/front/001.png">
@@ -45,9 +46,10 @@
 					</div>
 					<div class="statusBar">
 						<div id="playerPokemonName" class="pokemonName">Carapuce Nv.5</div>
-						<div class="HPText">20/20</div>
+						<div id="playerHPText" class="HPText">20/20</div>
 						<div id="playerHPBar" class="pokemonHPBar"><div id="playerActualHP" class="acutalHP"></div></div>
 						<img class="speedImage" src="/public/img/icons/ic_update_white_24dp_1x.png"><div id="playerSpeedGauge" class="speedGauge"><div id="playerActualSpeed" class="actuelSpeedGauge"></div></div>
+						<div id="playerUsedAction" class="usedActionText">Used Tackle</div>
 					</div>
 				</div>
 			</div>
@@ -58,18 +60,19 @@
 				--><button id="itemCommand" class="mainCommand" onclick="pokemonUMod.selectItem()">Item</button><!--
 				--><button id="surrenderCommand" class="mainCommand" onclick="pokemonUMod.selectSurrender()">Give Up</button>
 				</div>
-				<div class="attackCommands hidden">
-					<button id="attack1" class="attackCommand" onclick="pokemonUMod.useMove(0)">Attack 1</button>
-					<button id="attack2" class="attackCommand" onclick="pokemonUMod.useMove(1)">Attack 2</button>
-					<button id="attack3" class="attackCommand" onclick="pokemonUMod.useMove(2)">Attack 3</button>
-					<button id="attack4" class="attackCommand" onclick="pokemonUMod.useMove(3)">Attack 4</button>
+				<div class="moveCommands hidden">
+					<button id="move1" class="moveCommand" onclick="pokemonUMod.useMove(0)" onmouseover="pokemonUMod.detailMove(0)">Attack 1</button>
+					<button id="move2" class="moveCommand" onclick="pokemonUMod.useMove(1)" onmouseover="pokemonUMod.detailMove(1)">Attack 2</button>
+					<button id="move3" class="moveCommand" onclick="pokemonUMod.useMove(2)" onmouseover="pokemonUMod.detailMove(2)">Attack 3</button>
+					<button id="move4" class="moveCommand" onclick="pokemonUMod.useMove(3)" onmouseover="pokemonUMod.detailMove(3)">Attack 4</button>
 				</div>
+				<button onclick="pokemonUMod.backToMainCommands()">Back</button>
 			</div>
 		</div>
 	</section>
-	<footer>
+	<!--<footer>
 		Made by "Some Strange People"
-	</footer>
+	</footer>-->
 	<script src="/public/scripts/main.js"></script>
 </body>
 </html>

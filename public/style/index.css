@@ -103,7 +103,7 @@ footer {
 	transition: all 0.4s;
 }
 
-.mainCommands button{
+.mainCommand{
 	-webkit-flex:1;
 	flex:1;
 
@@ -112,12 +112,15 @@ footer {
 	border: none;
 	margin: 5px;
 
-	color : #FFFFFF;
 	font-family: open_sanslight;
 	text-transform: uppercase;
 
 	transition: all 0.4s;
+	color: #FFFFFF;
+	
 }
+
+
 
 #fightCommand{ background-color: #E53935; }
 #fightCommand:hover{
@@ -146,6 +149,37 @@ footer {
 .mainCommand:hover{
 	background-color: #E0E0E0;
 	color : #212121;
+}
+
+.moveCommands{
+	display: flex;
+	flex-direction: row;
+	transition: all 0.4s;
+	outline: 0px solid #FFFFFF;
+	/*border : 0px solid #FFFFFF;*/
+}
+
+.moveCommand:hover{
+	background-color: #424242;
+	color: #FFFFFF;
+	outline: 2px solid #039BE5;
+	/*border : 2px  solid #039BE5;*/
+}
+
+.moveCommand{
+	-webkit-flex:1;
+	flex:1;
+
+	height: 50px;
+	border-radius: 10px;
+	border: none;
+	margin: 5px;
+
+	background-color: #E0E0E0;
+	color: #212121;
+	font-family: open_sanslight;
+
+	transition: all 0.4s;
 }
 
 .pokemonSprite {
@@ -197,6 +231,7 @@ footer {
 	padding: 0px;
 	overflow: hidden;
 	border-radius: 8px;
+	background-color: #212121;
 }
 
 .acutalHP{
@@ -226,6 +261,7 @@ footer {
 	padding: 0px;
 	overflow: hidden;
 	border-radius: 6px;
+	background-color: #212121;
 	/*margin-top: 5px;*/
 }
 
@@ -248,4 +284,5 @@ footer {
 .hidden {
 	opacity: 0;
 	display: none;
+	
 }
