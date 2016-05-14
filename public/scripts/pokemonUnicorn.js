@@ -120,6 +120,17 @@ var PokeUnicornModule = (function(){
 			playerHPText.innerHTML = playerStats.hP + "/" + playerStats.maxHP;
 			enemyHPText.innerHTML = enemyStats.hP + "/" + enemyStats.maxHP;
 		},
+		connectUser : function(){
+			socket.emit('connectUser', {pseudo : document.getElementById("pseudo").value, password : document.getElementById("password").value});
+		},
+		findUser : function(){
+			console.log("finding");
+			socket.emit("findUser");
+		},
+		stopFindUser : function(){
+			console.log("stopFindUser");
+			socket.emit("stopFindUser");
+		},
 		update : function() {
 			//console.log("updating");
 
@@ -159,6 +170,10 @@ var PokeUnicornModule = (function(){
 
 	socket.on('attackDone', function() {
 		console.log("An attackhas been initiated");
+	});
+	
+	socket.on('startFighting', function() {
+		console.log("gooooo !");
 	});
 
 	return self;

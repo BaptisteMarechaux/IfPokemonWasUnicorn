@@ -15,7 +15,7 @@
 	<section class="mainSection">
 		<div class="matchmakingSection">
 			<div class="login">
-				<form>
+				<!--<form>
 					<label>User Name</label>
 					<input type="text" placeholder="User Name" />
 
@@ -23,7 +23,16 @@
 					<input type="password" placeholder="User Name" />
 
 					<button>Find</button>
-				</form>
+				</form>-->
+				<label>User Name</label>
+				<input id="pseudo" type="text" placeholder="User Name" />
+
+				<label>Password</label>
+				<input id="password" type="password" placeholder="User Name" />
+				
+				<button onclick="pokemonUMod.connectUser()">Connect</button>
+				<button onclick="pokemonUMod.findUser()">Find</button>
+				<button onclick="pokemonUMod.stopFindUser()">Stop</button>
 			</div>
 		</div>
 		<div class="battleSection">
