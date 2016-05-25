@@ -39,6 +39,13 @@ var players = [];
 var currentConnections = {};
 var currentID = [];
 
+var room = {
+	players : []
+};
+
+var rooms = [];
+
+
 //--------------------------------------------------
 
 //Gestion de socket.io------------------------------
@@ -54,6 +61,11 @@ io.on('connection', function(socket){
 	
 	socket.on('useMove', function(msg){
 		console.log('message: ' + msg);
+		if (rooms[0].players[0].socket == socket){
+			rooms[0].players[1].socket.emit('attackPlayer');
+		}else{
+			rooms[0].players[0].socket.emit('attackPlayer');
+		}
 	});
 	
 	socket.on('connectUser', function(msg){
@@ -93,13 +105,17 @@ io.on('connection', function(socket){
 				currentConnections[currentID[i]].socket.emit('startFighting');
 				currentConnections[socket.id].socket.emit('startFighting');
 				console.log("Found 1");
+				tmpRoom = room;
+				tmpRoom.players.push(currentConnections[currentID[i]]);
+				tmpRoom.players.push(currentConnections[socket.id]);
+				rooms.push(tmpRoom);
 				break;
 			}
 		}
 
-		findUser(function(sentTab) {
+		/*findUser(function(sentTab) {
 			socket.emit('foundUser', sentTab);
-		})
+		})*/
 	});
 	
 	socket.on('stopFindUser', function(){

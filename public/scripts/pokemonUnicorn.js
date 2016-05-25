@@ -100,7 +100,7 @@ var PokeUnicornModule = (function(){
 				console.log("Your pokemon used move " + index);
 				socket.emit('useMove', {moveIndex : index , userStats : playerStats, targetStats : enemyStats});
 				//playerUsedAction.innerHTML = "";
-				enemyStats.hP -= 2;
+				//enemyStats.hP -= 2;
 
 				playerStats.time = 0;
 			}
@@ -143,7 +143,7 @@ var PokeUnicornModule = (function(){
 				{
 					setTimeout(function() {
 						if(playerStats.hP>0){
-							playerStats.hP -=1;
+							//playerStats.hP -=1;
 							enemyStats.time = 0;
 							console.log(playerStats.hP);
 						}
@@ -174,6 +174,10 @@ var PokeUnicornModule = (function(){
 	
 	socket.on('startFighting', function() {
 		console.log("gooooo !");
+	});
+	
+	socket.on('attackPlayer', function() {
+		playerStats.hP -= 2;
 	});
 
 	return self;
