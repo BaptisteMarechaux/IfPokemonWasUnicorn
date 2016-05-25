@@ -96,6 +96,10 @@ io.on('connection', function(socket){
 				break;
 			}
 		}
+
+		findUser(function(sentTab) {
+			socket.emit('foundUser', sentTab);
+		})
 	});
 	
 	socket.on('stopFindUser', function(){
@@ -165,3 +169,22 @@ var url = 'mongodb://localhost:27017/videodb';
 
 //--------------------------------------------------
 
+var findUsers = function(callback) {
+	MongoClient.connect(url, function(err, res) {
+		var cursor = db.collection('videowalls').find();
+
+		var wallArray = [];
+
+		cursor.each(function(err, doc) {
+			assert.equal(err, null);
+			if (doc != null) {
+				//console.dir(doc);
+				wallArray.push(doc);
+
+			} else {
+				//return ar;
+				callback(wallArray);
+			}
+		});
+	});
+}
