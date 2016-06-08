@@ -16,7 +16,7 @@ var MongoClient = require('mongodb').MongoClient;
 
 var assert = require('assert');
 
-var url = 'mongodb://localhost:27017/Unicorn';
+var url = 'mongodb://localhost:27017/explodb';
 
 var ObjectID = require('mongodb').ObjectID;
 
@@ -62,9 +62,11 @@ io.on('connection', function(socket){
 	socket.on('useMove', function(msg){
 		console.log('message: ' + msg);
 		if (rooms[0].players[0].socket == socket){
-			rooms[0].players[1].socket.emit('attackPlayer');
-		}else{
+			rooms[0].players[1].socket.emit('receiveAttackPlayer');
 			rooms[0].players[0].socket.emit('attackPlayer');
+		}else{
+			rooms[0].players[0].socket.emit('receiveAttackPlayer');
+			rooms[0].players[1].socket.emit('attackPlayer');
 		}
 	});
 	
@@ -76,17 +78,34 @@ io.on('connection', function(socket){
 			elo : 1200,
 		};
 		var exist = false;
-		for(i = 0; i < players.length; i++) {
+		/*for(i = 0; i < players.length; i++) {
 			if(players[i].pseudo == player.pseudo){
 				exist = true;
 				console.log("Connection of : " + msg.pseudo);
 				player = players[i];
 				break;
 			}
-		}
+		}*/
+		MongoClient.connect(url, function(err, db) {
+			assert.equal(null, err);
+				findUser(db, msg.pseudo, msg.password, function(user){
+					if(user.length > 0){
+						exist = true;
+						player = user[0];
+						console.log("Connection of : " + msg.pseudo);
+					}
+				});
+		});
+
 		if(!exist){
 			console.log("new user : " + msg.pseudo);
-			players.push(player);
+			//players.push(player);
+			MongoClient.connect(url, function(err, db) {
+				assert.equal(null, err);
+				insertUser(db, player.pseudo, player.password, player.state, player.elo, function() {
+					db.close();
+				});
+			});
 			console.log(players);
 		}
 		currentConnections[socket.id].data = player; 
@@ -181,26 +200,30 @@ server.listen(port, function(socket) {
 	console.log('listening on :' + port);
 });
 
-var url = 'mongodb://localhost:27017/videodb';
 
-//--------------------------------------------------
+//----------------- Mongo Connection ---------------
 
-var findUsers = function(callback) {
-	MongoClient.connect(url, function(err, res) {
-		var cursor = db.collection('videowalls').find();
+var insertUser = function(db, pseudo, password, state, elo, callback) {
+   db.collection('users').insertOne( {
+      "pseudo" : pseudo,
+      "password" : password,
+      "state" : state,
+	  "elo" : elo,
+   }, function(err, result) {
+    assert.equal(err, null);
+    console.log("Inserted a document into the users collection.");
+  });
+};
 
-		var wallArray = [];
-
-		cursor.each(function(err, doc) {
-			assert.equal(err, null);
-			if (doc != null) {
-				//console.dir(doc);
-				wallArray.push(doc);
-
-			} else {
-				//return ar;
-				callback(wallArray);
-			}
-		});
-	});
-}
+var findUser = function(db, pseudo, password, callback) {
+   var cursor =db.collection('users').find( { "pseudo": pseudo, "password": password} );
+   var results = [];
+   cursor.each(function(err, doc) {
+      assert.equal(err, null);
+      if (doc != null) {
+         results.push(doc);
+      } else {
+         callback(results);
+      }
+   });
+};

@@ -176,8 +176,12 @@ var PokeUnicornModule = (function(){
 		console.log("gooooo !");
 	});
 	
-	socket.on('attackPlayer', function() {
+	socket.on('receiveAttackPlayer', function() {
 		playerStats.hP -= 2;
+	});
+
+	socket.on('attackPlayer', function() {
+		enemyStats.hP -= 2;
 	});
 
 	return self;
