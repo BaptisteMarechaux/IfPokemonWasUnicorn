@@ -69,7 +69,31 @@ io.on('connection', function(socket){
 			rooms[0].players[1].socket.emit('attackPlayer');
 		}
 	});
-	
+
+	socket.on('updateEnemy', function(){
+		console.log('updateEnemy');
+		console.log(rooms[0].players[0]);
+		console.log(rooms[0]);
+		
+		if (rooms[0].players[0].socket == socket){		
+			MongoClient.connect(url, function(err, db) {
+				findUserWithName(db, rooms[0].players[1].data.pseudo, function(res){
+					rooms[0].players[0].socket.emit('enemyUpdated', res);
+				});
+			});
+			
+
+		}else{
+			MongoClient.connect(url, function(err, db) {
+				findUserWithName(db, rooms[0].players[0].data.pseudo, function(res){
+					rooms[0].players[1].socket.emit('enemyUpdated', res);
+				});
+			});
+			
+		}
+		
+	});
+
 	socket.on('connectUser', function(msg){
 		player = {
 			pseudo : msg.pseudo,
@@ -92,24 +116,36 @@ io.on('connection', function(socket){
 					if(user.length > 0){
 						exist = true;
 						player = user[0];
+						socket.emit("userConnected", player);
 						console.log("Connection of : " + msg.pseudo);
+						currentConnections[socket.id].data = player;
+					}
+					else
+					{
+						assert.equal(null, err);
+						insertUser(db, player.pseudo, player.password, player.state, player.elo, function(addedUser) {
+							db.close();
+							socket.emit("userConnected", addedUser);
+							currentConnections[socket.id].data = player;
+						});
 					}
 				});
 		});
-
+		/*
 		if(!exist){
 			console.log("new user : " + msg.pseudo);
 			//players.push(player);
 			MongoClient.connect(url, function(err, db) {
 				assert.equal(null, err);
-				insertUser(db, player.pseudo, player.password, player.state, player.elo, function() {
+				insertUser(db, player.pseudo, player.password, player.state, player.elo, function(addedUser) {
 					db.close();
+					socket.emit("userConnected", addedUser);
 				});
 			});
 			console.log(players);
-		}
-		currentConnections[socket.id].data = player; 
-		console.log(currentConnections);
+		}*/
+		//currentConnections[socket.id].data = player; 
+		//console.log(currentConnections);
 	});
 	
 	socket.on('findUser', function(){
@@ -136,6 +172,8 @@ io.on('connection', function(socket){
 			socket.emit('foundUser', sentTab);
 		})*/
 	});
+
+
 	
 	socket.on('stopFindUser', function(){
 		currentConnections[socket.id].data.state = 0;
@@ -204,14 +242,104 @@ server.listen(port, function(socket) {
 //----------------- Mongo Connection ---------------
 
 var insertUser = function(db, pseudo, password, state, elo, callback) {
+
+	var rand = Math.floor((Math.random() * 3) + 1);
+	var addedMonster = {};
+	if(rand == 1)
+	{
+		addedMonster = {
+			monsterName : "Bulbasaur",
+	  		monsterFrontImage : "/public/img/battlers/front/001.png",
+	  		monsterBackImage : "/public/img/battlers/back/001b.png",
+	  		level: 5,
+			maxHP : 20,
+			hP : 20,
+			time : 0,
+			str : 9,
+			def : 10,
+			spe : 10,
+			spA : 11,
+			spD : 11,
+			moves : ["Tackle", "Growl"]
+		}
+	}
+	else if(rand == 2)
+	{
+		addedMonster = {
+			monsterName : "Charmander",
+	  		monsterFrontImage : "/public/img/battlers/front/004.png",
+	  		monsterBackImage : "/public/img/battlers/back/004b.png",
+	  		level: 5,
+			maxHP : 20,
+			hP : 20,
+			time : 0,
+			str : 11,
+			def : 9,
+			spe : 10,
+			spA : 11,
+			spD : 12,
+			moves : ["Scratch", "Smokescreen"]
+		}
+	}
+	else if(rand == 3)
+	{
+		addedMonster = {
+			monsterName : "Suqirtle",
+	  		monsterFrontImage : "/public/img/battlers/front/007.png",
+	  		monsterBackImage : "/public/img/battlers/back/007b.png",
+	  		level: 5,
+			maxHP : 20,
+			hP : 20,
+			time : 0,
+			str : 10,
+			def : 12,
+			spe : 9,
+			spA : 10,
+			spD : 12,
+			moves : ["Bite", "Tail Whip"]
+		}
+	}
+	var addedUser = {
+		monsterName : addedMonster.monsterName,
+  		monsterFrontImage : addedMonster.monsterFrontImage,
+  		monsterBackImage : addedMonster.monsterBackImage,
+  		monsterLevel : addedMonster.level,
+  		monsterMaxHP : addedMonster.maxHP,
+  		monsterHP : addedMonster.hP,
+  		monsterTime : addedMonster.time,
+  		monsterStr : addedMonster.str,
+  		monsterDef : addedMonster.def,
+  		monsterSpe : addedMonster.spe,
+  		monsterSpA : addedMonster.spA,
+  		monsterSpD : addedMonster.spD,
+  		monsterMoves : [addedMonster.moves[0], addedMonster.moves[1]]
+	};
    db.collection('users').insertOne( {
       "pseudo" : pseudo,
       "password" : password,
       "state" : state,
 	  "elo" : elo,
+	  "monsters":[
+	  	{
+	  		"monsterName" : addedMonster.monsterName,
+	  		"monsterFrontImage" : addedMonster.monsterFrontImage,
+	  		"monsterBackImage" : addedMonster.monsterBackImage,
+	  		"monsterLevel" : addedMonster.level,
+	  		"monsterMaxHP" : addedMonster.maxHP,
+	  		"monsterHP" : addedMonster.hP,
+	  		"monsterTime" : addedMonster.time,
+	  		"monsterStr" : addedMonster.str,
+	  		"monsterDef" : addedMonster.def,
+	  		"monsterSpe" : addedMonster.spe,
+	  		"monsterSpA" : addedMonster.spA,
+	  		"monsterSpD" : addedMonster.spD,
+	  		"monsterMoves" : [addedMonster.moves[0], addedMonster.moves[1]]
+	  	}
+	  ]
    }, function(err, result) {
     assert.equal(err, null);
     console.log("Inserted a document into the users collection.");
+    callback(addedUser);
   });
 };
 
@@ -223,7 +351,22 @@ var findUser = function(db, pseudo, password, callback) {
       if (doc != null) {
          results.push(doc);
       } else {
+      	console.log(results);
          callback(results);
       }
    });
+};
+
+var findUserWithName = function(db, pseudo, callback){
+	var cursor = db.collection('users').find( { "pseudo": pseudo} );
+	var results = [];
+	cursor.each(function(err, doc) {
+		assert.equal(err, null);
+		if (doc != null) {
+			results.push(doc);
+		} else {
+			console.log(results);
+			callback(results[0]);
+		}
+	});
 };
